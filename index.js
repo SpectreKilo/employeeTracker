@@ -62,3 +62,24 @@ const viewEmployees = () => {
     ).then(() => askQuestions())
 };
 
+const viewDepartments = () => {
+    showDepartments().then((result) => {
+        console.table(result[0])
+    }
+    ).then(() => askQuestions())
+};
+
+const viewRoles = () => {
+    showRoles().then((result) => {
+        console.table(result[0])
+    }
+    ).then(() => askQuestions())
+};
+
+const addNewDepartment = () => {
+    inquirer.createPromptModule(addDepartmentQuestions).then((answers) => {
+        addDepartment(answers).then((result) => {
+            console.log("New Department Added To Database")
+        }).then(() => askQuestions())
+    })
+};
