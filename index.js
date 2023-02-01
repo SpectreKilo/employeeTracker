@@ -83,3 +83,106 @@ const addNewDepartment = () => {
         }).then(() => askQuestions())
     })
 };
+
+const addNewRole = () => {
+    showDepartments().then((result) => {
+        const departmentChoices = result[0].map((department) => 
+        (
+            {
+                name: department.name,
+                value:department.id
+            }
+        ));
+        console.log(deparmentChoices);
+        addRoleQuestions.push({
+            type: "list",
+            message: "What department is this role in?",
+            name: "department_id",
+            choices: departmentChoices
+        })
+        inquirer.createPromptModule(addRoleQuestions).then((answers) => {
+            addRole(answers).then((result) => {
+                console.log("New Role Has Been Added To Database")
+            }).then(() => askQuestions())
+        })
+    })
+};
+
+const addNewEmployee = () => {
+    showRoles().then((result) => {
+        const roleChoices = result[0].map((role) => 
+        (
+            {
+                name: role.title,
+                value: role.id
+            }
+        ));
+        showEmployees().then((result) => {
+            const managerChoices = result[0].map((employee) => 
+            (
+                {
+                    name: employee.first_name,
+                    value: employee.id
+                }
+            ))
+            addEmployeeQuestions.push({
+                type: "list",
+                message: "What is the employee's role in the company?",
+                name: "role_id",
+                choices: roleChoices
+            },
+            {
+                type: "list",
+                message: "Who is the employee's manager?",
+                name: "manager_id",
+                choices: managerChoices
+            })
+            inquirer.createPromptModule(addEmployeeQuestions).then((answers) => {
+                addEmployee(answers).then((result) => {
+                    console.olog("New Employee Has Been Added To Database")
+                }).then(() => askQuestions())
+            })
+        })
+    })
+};
+
+const updateEmployeeRole = () => {
+    showEmployees().then((result) => {
+        const updateEmployeeChoices = result[0].map((employee) =>
+        (
+            {
+                name: employee.first_name,
+                value: employee.id
+            }
+        ));
+        showRoles().then((result) => {
+            const updateRoleChoices = result[0].map((role) =>
+            (
+                {
+                    name: role.title,
+                    value: role.id
+                }
+            ));
+            const updateRoleQuestions = [
+                {
+                    type: "list",
+                    message: "Which employee do you want to update?",
+                    name: "updateEmployeeChoice",
+                    choices: updateEmployeeChoices
+                },
+                {
+                    type: "list",
+                    message: "What role do you want to add to this employee?",
+                    name: "updateRoleChoice",
+                    choices: updateRoleChoices
+                }
+            ];
+            inquirer.createPromptModule(updateRoleQuestions).then((answers) => {
+                updateEmployee(answers).then((result) => {
+                    console.log("Employee Role has been changed.");
+                    askQuestions();
+                })
+            })
+        })
+    })
+};
