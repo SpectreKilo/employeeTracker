@@ -13,7 +13,7 @@ db.connect((err) => {
 });
 
 const askQuestions = () => {
-    inquirer.createPromptModule(menuQuestions)
+    inquirer.prompt(menuQuestions)
         .then((answers) => {
             switch (answers.firstMenu) {
 
@@ -32,24 +32,26 @@ const askQuestions = () => {
                 case "View All Roles":
                     viewRoles();
                     break;
-    
+
                 case "Add Role":
                     addNewRole();
                     break;
-    
+
                 case "View All Departments":
                     viewDepartments();
                     break;
-    
+
                 case "Add Department":
+                    //console.log('department')
                     addNewDepartment();
                     break;
-    
+
                 case "Quit":
                     console.log("Thank you for using Employee-Tracker")
                     break;
             }
-            if (answers.firstMenu === "Quit") {
+            //console.log(answers)
+            if (answers.firstMenu === 'Quit') {
                 return;
             }
         });
