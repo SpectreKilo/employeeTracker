@@ -50,8 +50,7 @@ const askQuestions = () => {
                     console.log("Thank you for using Employee-Tracker")
                     break;
             }
-            //console.log(answers)
-            if (answers.firstMenu === 'Quit') {
+            if (answers.firstMenu === "Quit") {
                 return;
             }
         });
