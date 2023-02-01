@@ -1,7 +1,7 @@
 const db = require("./main/config/connection");
 const inquirer = require("inquirer");
 const consoleTable = require("console.table");
-const{ menuQuestions, addDepartmentQuestions, addRoleQuestions, addEmployeeQuestions } = require("./main/utils/query");
+const{ menuQuestions, addDepartmentQuestions, addRoleQuestions, addEmployeeQuestions } = require("./main/lib/questions");
 const { showDepartments, showEmployees, showRoles, addDepartment, addRole, addEmployee, updateEmployee } = require("./main/utils/query");
 
 db.connect((err) => {
@@ -78,7 +78,7 @@ const viewRoles = () => {
 };
 
 const addNewDepartment = () => {
-    inquirer.createPromptModule(addDepartmentQuestions).then((answers) => {
+    inquirer.prompt(addDepartmentQuestions).then((answers) => {
         addDepartment(answers).then((result) => {
             console.log("New Department Added To Database")
         }).then(() => askQuestions())
@@ -94,14 +94,14 @@ const addNewRole = () => {
                 value:department.id
             }
         ));
-        console.log(deparmentChoices);
+        console.log(departmentChoices);
         addRoleQuestions.push({
             type: "list",
             message: "What department is this role in?",
             name: "department_id",
             choices: departmentChoices
         })
-        inquirer.createPromptModule(addRoleQuestions).then((answers) => {
+        inquirer.prompt(addRoleQuestions).then((answers) => {
             addRole(answers).then((result) => {
                 console.log("New Role Has Been Added To Database")
             }).then(() => askQuestions())
@@ -138,9 +138,9 @@ const addNewEmployee = () => {
                 name: "manager_id",
                 choices: managerChoices
             })
-            inquirer.createPromptModule(addEmployeeQuestions).then((answers) => {
+            inquirer.prompt(addEmployeeQuestions).then((answers) => {
                 addEmployee(answers).then((result) => {
-                    console.olog("New Employee Has Been Added To Database")
+                    console.log("New Employee Has Been Added To Database")
                 }).then(() => askQuestions())
             })
         })
@@ -178,7 +178,7 @@ const updateEmployeeRole = () => {
                     choices: updateRoleChoices
                 }
             ];
-            inquirer.createPromptModule(updateRoleQuestions).then((answers) => {
+            inquirer.prompt(updateRoleQuestions).then((answers) => {
                 updateEmployee(answers).then((result) => {
                     console.log("Employee Role has been changed.");
                     askQuestions();
