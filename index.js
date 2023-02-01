@@ -54,3 +54,11 @@ const askQuestions = () => {
             }
         });
 };
+
+const viewEmployees = () => {
+    showEmployees().then((result) => {
+        console.table(result[0])
+    }
+    ).then(() => askQuestions())
+};
+
